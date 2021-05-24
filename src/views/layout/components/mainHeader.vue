@@ -18,7 +18,7 @@
         欢迎{{$store.state.userInfo.username}}
         <a-icon type="down" />
       </li>
-      <li>退出</li>
+      <li @click="loginOut">退出</li>
     </ul>
   </div>
 </template>
@@ -33,6 +33,12 @@ export default {
   methods: {
     toggleCollapsed() {
       this.$store.dispatch('changeCollapsed');
+    },
+    loginOut() {
+      this.$store.dispatch('loginOut');
+      this.$router.push({
+        name: 'Login',
+      });
     },
   },
 };
