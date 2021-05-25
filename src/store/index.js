@@ -8,6 +8,8 @@ export default new Vuex.Store({
   state: {
     collapsed: false,
     userInfo: getUserCookie(),
+    // 存储菜单路由
+    menuRoutes: [],
   },
   mutations: {
     changeCollapsed(state) {
@@ -24,6 +26,9 @@ export default new Vuex.Store({
         username: '',
       };
     },
+    changeMenuRoutes(state, menuRoutes) {
+      state.menuRoutes = menuRoutes;
+    },
   },
   actions: {
     changeCollapsed(state) {
@@ -36,6 +41,9 @@ export default new Vuex.Store({
     loginOut({ commit }) {
       commit('loginOut');
       removeUserCookie();
+    },
+    changeMenuRoutes({ commit }, menuRoutes) {
+      commit('changeMenuRoutes', menuRoutes);
     },
   },
   modules: {
