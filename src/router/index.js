@@ -12,6 +12,8 @@ const asyncRoutes = [{
   name: 'Product',
   meta: {
     title: '商品',
+    hidden: false,
+    icon: 'appstore',
   },
   component: Home,
   children: [{
@@ -19,6 +21,8 @@ const asyncRoutes = [{
     name: 'ProductList',
     meta: {
       title: '商品列表',
+      hidden: false,
+      icon: 'unordered-list',
     },
     component: () => import('@/views/pages/ProductList.vue'),
   }, {
@@ -26,6 +30,8 @@ const asyncRoutes = [{
     name: 'ProductAdd',
     meta: {
       title: '新增商品',
+      hidden: false,
+      icon: 'plus',
     },
     component: () => import('@/views/pages/ProductAdd.vue'),
   }, {
@@ -33,6 +39,8 @@ const asyncRoutes = [{
     name: 'Category',
     meta: {
       title: '商品类目',
+      hidden: false,
+      icon: 'books',
     },
     component: () => import('@/views/pages/Category.vue'),
   }],
@@ -43,6 +51,8 @@ const routes = [{
   name: 'Home',
   meta: {
     title: '首页',
+    hidden: false,
+    icon: 'home',
   },
   component: Home,
   children: [{
@@ -50,6 +60,8 @@ const routes = [{
     name: 'Index',
     meta: {
       title: '统计',
+      hidden: false,
+      icon: 'area-chart',
     },
     component: () => import('@/views/pages/Index.vue'),
   }],
@@ -60,6 +72,8 @@ const routes = [{
   component: Login,
   meta: {
     title: '登陆',
+    hidden: true,
+    icon: 'user',
   },
 },
 ];
@@ -75,9 +89,11 @@ router.beforeEach((to, from, next) => {
       && store.state.userInfo.email) {
       if (!isAdd) {
         const menuRoutes = filterResultRoutes(store.state.userInfo.role, asyncRoutes);
-        console.log(menuRoutes);
-        router.addRoutes(menuRoutes);
-        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes));
+        // console.log(menuRoutes);
+        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes)).then(() => {
+          router.addRoutes(menuRoutes);
+          next();
+        });
         isAdd = true;
       }
       return next();
