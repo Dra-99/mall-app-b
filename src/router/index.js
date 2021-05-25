@@ -49,6 +49,9 @@ const asyncRoutes = [{
 const routes = [{
   path: '/',
   name: 'Home',
+  redirect: {
+    name: 'Index',
+  },
   meta: {
     title: '首页',
     hidden: false,
