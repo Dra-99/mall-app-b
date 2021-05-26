@@ -32,6 +32,6 @@ export default function filterUseRoutes(role, allRoutes) {
     }
     return false;
   });
-  console.log(resultRoutes);
+  // console.log(resultRoutes);
   return resultRoutes;
 }

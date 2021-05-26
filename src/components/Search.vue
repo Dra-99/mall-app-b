@@ -29,7 +29,6 @@
   </a-form-model>
 </template>
 <script>
-import api from '@/api/category';
 
 export default {
   data() {
@@ -38,9 +37,9 @@ export default {
         searchWord: '',
         category: '',
       },
-      categoryList: [],
     };
   },
+  props: ['categoryList'],
   methods: {
     handleSubmit() {
     //   console.log();
@@ -53,10 +52,7 @@ export default {
   },
 
   created() {
-    api.getCategory().then((res) => {
-    //   console.log(res);
-      this.categoryList = res.data;
-    });
+
   },
 };
 </script>
