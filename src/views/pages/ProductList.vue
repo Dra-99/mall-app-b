@@ -1,17 +1,24 @@
 <template>
-  <div>
+  <div class="productList">
       <!-- 搜索列表 -->
       <search @submit="searchSubmit" :categoryList="categoryList"/>
+      <!-- 新增商品按钮 -->
+      <a-button class="add">
+        <router-link :to="{name: 'ProductAdd'}">新增商品</router-link>
+      </a-button>
       <!-- 商品列表 -->
-      <product-table :listData="listData" :page="page" @change="changePage"
-      :categoryList="categoryList"/>
+      <product-table :listData="listData"
+        :page="page" @change="changePage"
+        :categoryList="categoryList"
+        @editProduct="editProduct"
+        @removeProduct="removeProduct"/>
   </div>
 </template>
 
 <script>
 import Search from '@/components/Search.vue';
 import ProductTable from '@/components/ProductTable.vue';
-import api from '@/api/productList';
+import api from '@/api/product';
 import categoryApi from '@/api/category';
 
 export default {
@@ -51,6 +58,7 @@ export default {
     searchSubmit(formVal) {
       // console.log(formVal);
       this.searchForm = formVal;
+      this.getProductsList();
     },
     getProductsList() {
       api.getProductList({
@@ -70,10 +78,33 @@ export default {
       this.page = e;
       this.getProductsList();
     },
+    editProduct(record) {
+      this.$router.push({
+        name: 'ProductEdit',
+        params: {
+          id: record.id,
+        },
+      });
+    },
+    removeProduct(record) {
+      api.removeProduct({
+        id: record.id,
+      }).then((res) => {
+        console.log(res);
+        this.getProductsList();
+      });
+    },
   },
 };
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.productList{
+  position: relative;
+  .add{
+    position: absolute;
+    right: 10px;
+    top: 14px;
+  }
+}
 </style>

@@ -5,9 +5,9 @@
     :pagination="page"
     @change="changePage"
   >
-    <div slot="operation">
-        <a-button>编辑</a-button>
-        <a-button>删除</a-button>
+    <div slot="operation" slot-scope="text, record">
+        <a-button @click="edit(record)">编辑</a-button>
+        <a-button @click="remove(record)">删除</a-button>
     </div>
   </a-table>
 </template>
@@ -62,11 +62,15 @@ const columns = [
     dataIndex: 'status',
     key: 'status',
     ellipsis: true,
+    customRender(text, record) {
+      return record.status === 1 ? '上架' : '下架';
+    },
   },
   {
     title: '操作',
     dataIndex: 'operation',
     key: 'operation',
+    width: 200,
     scopedSlots: { customRender: 'operation' },
   },
 ];
@@ -90,6 +94,22 @@ export default {
     changePage(e) {
     //   console.log(e);
       this.$emit('change', e);
+    },
+    edit(record) {
+      // console.log(record);
+      this.$emit('editProduct', record);
+    },
+    remove(record) {
+      this.$confirm({
+        title: '确认删除吗?',
+        content: `确认删除标题为${record.title}的商品吗?`,
+        onOk: () => {
+          this.$emit('removeProduct', record);
+        },
+        onCancel() {},
+        cancelText: '取消',
+        okText: '确认',
+      });
     },
   },
 };
