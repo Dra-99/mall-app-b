@@ -89,8 +89,8 @@ export default {
     removeProduct(record) {
       api.removeProduct({
         id: record.id,
-      }).then((res) => {
-        console.log(res);
+      }).then(() => {
+        // console.log(res);
         this.getProductsList();
       });
     },

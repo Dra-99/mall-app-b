@@ -24,7 +24,7 @@
             {{ c.name }}
           </a-select-option>
         </a-select>
-        <a-select v-model="form.c_items" placeholder="请选择商品子类目">
+        <a-select v-model="form.c_item" placeholder="请选择商品子类目">
           <a-select-option v-for="c in categoryItem" :value="c" :key="c">
             {{ c }}
           </a-select-option>
@@ -34,13 +34,14 @@
         <a-select
           mode="tags"
           placeholder="请选择标签"
-          :default-value="['包邮, 次日达']"
+          default-value="包邮，次日达"
+          size="default"
           v-model="form.tags"
         >
-          <a-select-option :key="key"> 包邮，次日达 </a-select-option>
+          <a-select-option :key="key">填写标签(勿选)</a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label=" " class="next">
+      <a-form-model-item label="" class="next" :wrapperCol="{span: 24}">
         <a-button type="primary" @click="next">下一步</a-button>
       </a-form-model-item>
     </a-form-model>
@@ -53,13 +54,6 @@ import api from '@/api/category';
 export default {
   data() {
     return {
-      form: {
-        title: '',
-        desc: '',
-        category: '',
-        c_items: [],
-        tags: [],
-      },
       key: Math.random().toString(16).substr(2, 7),
       rules: {},
       categoryList: [],
@@ -72,6 +66,7 @@ export default {
       this.categoryList = res.data;
     });
   },
+  props: ['form'],
   methods: {
     changeCategory(e) {
       for (let i = 0; i < this.categoryList.length; i += 1) {
@@ -80,13 +75,16 @@ export default {
         }
       }
     },
+    // changeTags(value) {
+    //   console.log(value);
+    // },
     next() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$emit('next', this.form);
           return true;
         }
-        alert('请将必填项补充完整');
+        this.$message.error('请将必填项填写完整');
         return false;
       });
     },

@@ -17,7 +17,7 @@
           autocomplete="off"
         />
       </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+      <a-form-model-item :wrapper-col="{ span: 15, offset: 4 }">
         <a-button type="primary" @click="submitForm('loginForm')">
           登陆
         </a-button>
